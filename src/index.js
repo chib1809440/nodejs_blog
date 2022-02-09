@@ -5,10 +5,18 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
+const route = require("./routes/");
+
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(
+	express.urlencoded({
+		extended: true,
+	})
+);
+app.use(express.json());
 //Http logger
-app.use(morgan("combined"));
+// app.use(morgan("combined"));
 
 //template engine
 app.engine(
@@ -20,13 +28,8 @@ app.engine(
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "/resource/views/"));
 
-app.get("/", (req, res) => {
-	res.render("home");
-});
-
-app.get("/news", (req, res) => {
-	res.render("news");
-});
+//routes init
+route(app);
 
 app.listen(port, () => {
 	console.log(`\r\nExample app listening at http://localhost:${port}`);
