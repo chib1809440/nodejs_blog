@@ -1,1 +1,41 @@
-<h1>Home Page</h1>
+<div class='container-fluid'>
+	<!-- Content here -->
+	<div class='mt-4'>
+		<div class='row'>
+
+			{{#each courses}}
+				<div class='col-lg-4'>
+					<div class='card'>
+						<a href='/courses/{{this.slug}}'>
+							<img class='card-img-top' src='{{this.image}}' alt='{{this.name}}' />
+						</a>
+					</div>
+					<div class='card-body'>
+						<a href='/courses/{{this.slug}}'>
+							<h5 class='card-title'>{{this.name}}</h5>
+						</a>
+
+						<p class='card-text'>{{this.description}}</p>
+						<a href='#' class='btn btn-primary btn-buy-course' data-id='{{this._id}}'>Mua khóa học</a>
+					</div>
+				</div>
+			{{/each}}
+
+		</div>
+	</div>
+</div>
+<form method='POST' name="buy-course-form"></form>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var buyForm = document.forms['buy-course-form'];
+		var btnBuyCourse = $('.btn-buy-course');
+
+		btnBuyCourse.click(function (event) {
+			event.preventDefault();
+
+			var couseID = $(this).data('id');
+			buyForm.action = '/courses/' + couseID + '/bought?_method=DELETE';
+			buyForm.submit();
+		})
+	})
+</script>
